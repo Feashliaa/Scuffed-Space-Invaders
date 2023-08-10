@@ -1,0 +1,263 @@
+/*          
+			 --------                    
+         ----------------          Riley Dorrington
+        ------------------          Period: 7
+        ---****------****---         Final Project
+       ---**  **----**  **--          100 points
+      ----**  **----**  **---          Due June 7th
+      -----****------****----                                    
+      -----------------------         
+      ----*---*-*--*-*---*---         
+      ---*--*-*--**--*-*--*--             
+      -----------------------            
+      ----  ----   ----  ----  
+      --     ---   ---     -- 
+*/       
+      
+	var canvas;
+	var c;
+	var midx;
+	var midy;
+	var pi = Math.PI;
+	var Invader = [];
+	var InvaderType = [];
+	var InvaderVersion = [];
+	var x = [200, 400, 600, 800, 1000, 1200];
+	var y = [100, 100, 100, 100, 100, 100];
+	var xtwo = [200, 400, 600, 800, 1000, 1200];
+	var ytwo = [250, 250, 250, 250, 250, 250];
+	var xthree = [200, 400, 600, 800, 1000, 1200];
+	var ythree = [400, 400, 400, 400, 400, 400];
+	var name;
+	var count = 0;
+	var counttwo = 0;
+	var countthree = 0;
+	var xscale = .5;
+	var runx = 0;
+	var runy = 0;
+	var SPACE = 32;
+	var ENTER = 13;
+	var LEFT = 37;
+	var RIGHT = 39;
+	var speed = 3; // your initial speed
+	var dx = speed;
+	var dy = speed;
+	var base = {x: 365,y: 580, length: 80, width: 20};
+	var gun = {x: 370,y: 575, length: 70, width: 5};
+	var guntwo = {x: 395,y: 560, length: 20, width: 15};
+	var gunthree = {x: 401,y: 550, length: 7.5, width: 10};
+	var timer = 0;
+
+
+
+    function initialize() {
+        canvas = document.getElementById( "canvas" );
+		// looping through the images
+			for(var i = 0; i < 2; i++)
+		{
+			name = "Invader"+(i+1); // Name of the image
+			Invader[i] = document.getElementById(name);
+		}
+		// looping through the images
+			for(var i = 0; i < 2; i++)
+		{
+			name = "InvaderType"+(i+1); // Name of the image
+			InvaderType[i] = document.getElementById(name);
+		}
+		
+		// looping through the images
+			for(var i = 0; i < 2; i++)
+		{
+			name = "InvaderVersion"+(i+1); // Name of the image
+			InvaderVersion[i] = document.getElementById(name);
+		}
+        
+		
+		if ( canvas && canvas.getContext ) {
+            c = canvas.getContext( "2d" );
+			
+			window.addEventListener("keydown", keystroke);
+			
+			// Center of screen
+			
+			start = true;
+			
+			midx = canvas.width/2;
+			midy = canvas.height/2;
+
+			            			
+			//drawScreen();   // call the function to draw once
+			window.setInterval("drawScreen()",1000/30);  // call repeatedly
+			
+        } // end if
+    } // initialize()
+	
+	function drawScreen() {
+	  
+	  // Background
+	  
+	  c.beginPath();
+	  c.fillStyle = "black";
+	  c.fillRect(0,0, canvas.width, canvas.height);
+	  c.closePath();
+	  
+
+		timer++;
+		if(timer % 15 == 0) 
+	  {
+		  
+		  count++; counttwo++; countthree++;
+		  
+		  if(count > 1 && counttwo > 1 && countthree > 1){
+			  
+			  count = 0;
+			  counttwo = 0;
+			  countthree = 0;
+		  }
+			  
+	  }
+		  
+		 
+	//console.log(frameCount); 
+	
+	  stars();
+	  drawGun();
+	  drawInvader();
+	  
+	  } // end drawScreen
+	
+	/** draw the player **/
+	function drawGun()
+	{
+		c.beginPath();
+		c.fillStyle = '#36e800';
+		c.rect(base.x, base.y, base.length, base.width);
+		c.rect(gun.x, gun.y, gun.length, gun.width);
+		c.rect(guntwo.x, guntwo.y, guntwo.length, guntwo.width);
+		c.rect(gunthree.x, gunthree.y, gunthree.length, gunthree.width);
+		c.fill();
+		c.closePath();
+	}
+	
+	function move()
+	{
+		// keep gun on screen
+	  
+	  if(base.x > 760)
+	  {
+		  base.x = 0;
+		  gun.x = 25;
+		  if(push == false)
+		  {
+			  laser.x = 25;
+		  }
+	  }
+	  
+	  if(base.x < 0)
+	  {
+		  base.x = 760;
+		  gun.x = 785;
+		  if(push == false)
+		  {
+			  laser.x = 785;
+		  }
+	  }
+	  
+	  if(laser.y > 570)
+	  {
+		  ldx = 0;
+	  }
+	}
+	function keystroke(key){ // START KEYSTROKE
+	
+		switch(key.keyCode)      //key.keyCode = code for key password
+		{
+			case LEFT:
+			gun.x = gun.x-50;			// move 50 units left
+			guntwo.x = guntwo.x-50;			// move 50 units left
+			gunthree.x = gunthree.x-50;			// move 50 units left
+			base.x = base.x-50;			// move 50 units left
+			break;
+		    case RIGHT:
+			gun.x = gun.x+50;			// move 50 units right
+			guntwo.x = guntwo.x+50;			// move 50 units right
+			gunthree.x = gunthree.x+50;			// move 50 units right
+			base.x = base.x+50;			// move 50 units left
+			break;
+}
+	}// end keystroke
+  
+    function stars(){
+		
+		// Making stars
+	
+	  c.fillStyle = "white";
+	  for (var i = 1; i <= 1; i++)
+	  {
+		  c.beginPath();
+		  xfour = Math.floor(canvas.width*Math.random());
+	      yfour = Math.floor(canvas.height*Math.random());
+		  c.arc(xfour, yfour, 1, 0, 2*pi);
+		  c.fill();
+		  c.closePath();
+	  }
+	}
+	
+	function drawInvader(){ // moving and animating the images	  	  
+	    {	  
+	for (var i = 0; i < x.length; i++)
+	{
+	  c.save();
+	  c.scale(xscale, 0.5);
+	  
+	  console.log(count);
+	  c.beginPath();
+	  c.drawImage(Invader[count], x[i], y[i]);
+	  c.closePath();
+	  
+	  c.restore();
+	 }  
+
+	}  
+	  	  if(count >= Invader.length)
+	  {
+		  count = 0;
+	  }
+
+	
+		for (var i = 0; i < xtwo.length; i++)
+	{
+	  c.save();
+	  c.scale(xscale, 0.5);
+	 
+	  c.beginPath();
+	  c.drawImage(InvaderType[counttwo], xtwo[i], ytwo[i]);
+	  c.closePath();
+
+	  c.restore();
+	}
+
+	  if(counttwo >= InvaderType.length)
+	  {
+		  counttwo = 0;
+	  }
+	  
+	  
+	  for (var i = 0; i < xthree.length; i++)
+	{
+	  c.save();
+	  c.scale(xscale, 0.5);
+	 
+	  c.beginPath();
+	  c.drawImage(InvaderVersion[countthree], xthree[i], ythree[i]);
+	  c.closePath();
+	  
+	  c.restore();
+	 }
+
+	  if(countthree >= InvaderVersion.length)
+	 {
+		 countthree = 0;
+	 }
+	}
+	
